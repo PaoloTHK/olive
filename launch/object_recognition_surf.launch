@@ -1,0 +1,13 @@
+<launch>
+  <arg name="camera" default="camera"/>
+  <arg name="depth" default="depth_registered"/>
+  <!-- start sensor-->
+  <include file="$(find openni_launch)/launch/openni.launch">
+	<arg name="camera" default="$(arg camera)"/>
+    </include>
+    <node name="dyanamic_reconfigure_load" pkg="dynamic_reconfigure" type="dynparam" args="set /camera/driver depth_registration True" />
+    <node pkg="rviz" type="rviz" name="rviz" />
+    <!--node name="dyanamic_reconfigure_load" pkg="dynamic_reconfigure" type="dynparam" args="set /camera/driver image_mode 5"/-->
+    <node name="object_recognition_surf_load" pkg="robot_ait" type="SIFT with BOX"/>
+
+</launch>

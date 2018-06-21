@@ -1,0 +1,17 @@
+<launch>
+  <include file="$(find robot_ait)/launch/kinect_laser_navigate.launch" />
+  <include file="$(find robot_ait)/launch/ait_laser_filter.launch" />
+  <include file="$(find robot_ait)/launch/driver.launch" />
+  <include file="$(find robot_ait)/launch/move_base.launch"/>
+  <include file="$(find robot_ait)/launch/urdf.launch"/>
+  <node name="teleop" pkg="teleop_twist_keyboard" type="teleop_twist_keyboard.py" output="screen" launch-prefix="xterm -e"/>
+  <node pkg="rviz" type="rviz" name="rviz" args="-d $(find robot_ait)/launch/rviz/navigation.rviz"/>
+  <node name="dyanamic_reconfigure_load" pkg="dynamic_reconfigure" type="dynparam" args="set /camera/driver depth_registration True"/>
+  <node name="object_recogintion_load" pkg="object_recognition_core" type="detection" args="-c $(find object_recognition_linemod)/conf/detection.ros.ork"/>
+  
+    <param name="threshold_" value="58.8f" /> <!--93.0f, 38.8f-->
+    <param name="th_obj_dist_" value="0.080" /> <!--0.04-->
+    <param name="icp_dist_min_" value="0.025f" /> <!--0.06f-->
+    <param name="px_match_min" value="0.25f" /> <!--0.25f-->
+  <!--node name="laser_scan_zone" pkg="robot_ait" type="ait_laser_filter"/-->
+</launch>

@@ -1,0 +1,18 @@
+<launch>
+  <arg name="camera" default="camera"/>
+  <arg name="depth" default="depth_registered"/>
+  <!-- start sensor-->
+  <include file="$(find openni_launch)/launch/openni.launch">
+	<arg name="camera" default="$(arg camera)"/>
+    </include>
+    <node name="dyanamic_reconfigure_load" pkg="dynamic_reconfigure" type="dynparam" args="set /camera/driver depth_registration True" />
+    <node pkg="rviz" type="rviz" name="rviz" />
+    <!--node name="dyanamic_reconfigure_load" pkg="dynamic_reconfigure" type="dynparam" args="set /camera/driver image_mode 5"/-->
+    <node name="object_recogintion_load" pkg="object_recognition_core" type="detection" args="-c $(find object_recognition_linemod)/conf/detection.ros.ork" />
+
+    <param name="threshold_" value="58.8f" /> <!--93.0f, 38.8f-->
+    <param name="th_obj_dist_" value="0.080" /> <!--0.04-->
+    <param name="icp_dist_min_" value="0.025f" /> <!--0.06f-->
+    <param name="px_match_min" value="0.25f" /> <!--0.25f-->
+
+</launch>
